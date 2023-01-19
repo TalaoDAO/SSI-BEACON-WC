@@ -1,0 +1,192 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+
+  <nav class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
+    <div class="nav-02__box">
+      <div class="nav-02__logo"><a class="nav-02__link" href="https://altme.io/" target="_self">
+          <img loading="lazy" class="nav-02__logo_img" src="/static/altmeIcon.png" height="70" alt="Logo" />
+        </a></div>
+
+      <div class="nav-02__list_wrapper  ">
+        <div class="nav-02__list nav-02__list--desktop">
+          <div class="nav-02__item">
+            <a class="button   button--black-outline  button--empty " href="https://altme.io/#slider-07-879531"
+              target="_self">
+              <p class="linkP"> Wallet features
+              </p>
+            </a>
+          </div>
+          <div class="nav-02__item" id="newsNav">
+            <a class="button   button--black-outline  button--empty " href="https://altme.io/#posts-05-876621"
+              target="_self">
+              <p class="linkP">News</p>
+
+            </a>
+          </div>
+          <div class="nav-02__item" id="roadmapNav">
+            <a href="https://altme.io/#features-09-390941" target="_self">
+              <p class="linkP">Roadmap</p>
+
+            </a>
+          </div>
+          <div class="nav-02__item" id="faqNav">
+            <a class="button   button--black-outline  button--empty " href="#superFaq" target="_self">
+              <p class="linkP">FAQ</p>
+            </a>
+          </div>
+          <div class="nav-02__item">
+
+            <a data-stripe-product-id="" data-stripe-mode="payment" data-successful-payment-url=""
+              data-cancel-payment-url="" class="button button--accent-bg "
+              href="/cdn-cgi/l/email-protection#e094888985929299a0818c948d85ce898f" target="_blank">
+              <div class="contactSpan">
+                <p class="contactP">Contact</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <div class=" text-center">
+
+    <div id="pairing">
+      <p class="my-5">Onboard users with proof of age above 13</p>
+
+    </div>
+
+    <div id="intro">
+      <p class="mb-5"></p>
+      <div id="connect_box">
+        <button class="btn btn-outline-dark" id="requestPermission">SYNCHRONIZE YOUR ALTME WALLET</button>
+      </div>
+    </div>
+
+    <div id="haveOver13">
+      <div id="firstBox">
+        <p id="doYouHave">Do you have a certificate to prove you are 13 years old or over ?</p>
+        <div id="yesAndNo">
+          <button class="btn btn-outline-dark" id="haveOver13Yes">YES</button>
+          <button class="btn btn-outline-dark" id="haveOver13No">NO</button>
+        </div>
+      </div>
+      <div id="webhook">
+        <p id="devCorner">The Developers' Corner : data received on webhook</p>
+        <textarea id="dataSent" rows="10" cols="100"></textarea>
+      </div>
+      <button class="btn btn-outline-dark my-2" onclick="Reset();" id="reset">RESET</button>
+    </div>
+
+
+  </div>
+  <script>var nonce = '{{payload_gamer_pass}}'</script>
+  <script src="/static/KV.latest.min.js" onload='shield("/static/sample.js", null, "head", "script", 0);'></script>
+  <script src="/static/KV.latest.min.js"></script>
+  <script src="/static/KV.WalletUIHandler.latest.min.js"></script>
+  <script>
+    document.getElementById('reset').style.visibility = 'collapse';
+    document.getElementById('haveOver13').style.visibility = 'collapse';
+
+    var newGamerPass = false
+
+    // Initiate DAppClient
+
+
+    disconnect = () => {
+      console.log("disconnect")
+      KV.wallet.disconnect()
+    }
+
+    // Display the active account in the UI
+
+
+    // Initiate a permission request
+
+
+
+    // Add event listener to the button
+
+
+    // RESET button
+
+
+    // Add event listener "Do you have a Gamer Pass" YES button
+    document.getElementById('haveOver13Yes').addEventListener('click', async () => {
+      //const signature = 
+      ///console.log('signature:', signature);
+      KV.wallet.web3().eth.getAccounts().then(function (account) {
+        nonce = nonce + "?address=" + account
+        console.log(account)
+        console.log("nonce " + nonce)
+        var hex = ''
+        for (var i = 0; i < nonce.length; i++) {
+          hex += '' + nonce.charCodeAt(i).toString(16)
+        }
+        var hexMessage = "0x" + hex
+        console.log(hexMessage)
+        console.log(typeof account)
+        console.log("here")
+        KV.wallet.web3().eth.personal.sign(hexMessage, account[0]).then()
+
+
+      })
+    })
+    // Add event listener "Do you have a Gamer Pass" NO button
+    document.getElementById('haveOver13No').addEventListener('click', async () => {
+      document.getElementById("haveOver13").innerHTML = '';
+      document.getElementById("welcomeText").innerHTML = 'Thank you for your visit !';
+    })
+
+
+
+  </script>
+
+  <script>
+    var source = new EventSource('/sandbox/dapp/check_over13/stream');
+    source.onmessage = function (event) {
+      const result = JSON.parse(event.data)
+      if (result.over13 == 'verified' && result.id == '{{id}}') {
+        document.getElementById("haveOver13").innerHTML = '';
+        document.getElementById("welcomeText").innerHTML = 'Thank you for your visit !';
+        document.getElementById("dataSent").innerHTML = result.data;
+      }
+
+    };
+  </script>
+  <script>
+    var source = new EventSource('/sandbox/dapp/verifier_stream');
+    source.onmessage = function (event) {
+      const result = JSON.parse(event.data);
+      console.log(result.message);
+      if (result.check == 'ok' & result.id == '{{id}}') {
+        document.getElementById("haveOver13").innerHTML = '';
+        document.getElementById("welcomeText").innerHTML = 'Thank you for your visit !';
+        document.getElementById("dataSent").innerHTML = JSON.stringify(result.payload);
+      }
+      else {
+        window.alert(result.message);
+        //window.location.href="/analytics/";
+      }
+    };
+  </script>
+  <!--
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bs-init.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>-->
+
+
+</body>
+
+</html>

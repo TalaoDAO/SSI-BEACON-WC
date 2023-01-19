@@ -1,0 +1,225 @@
+<html>
+
+<head>
+  <script src="/static/walletbeacon.min.js"></script>
+  <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+
+  <nav class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
+    <div class="nav-02__box">
+      <div class="nav-02__logo"><a class="nav-02__link" href="https://altme.io/" target="_self">
+          <img loading="lazy" class="nav-02__logo_img" src="/static/altmeIcon.png" height="70" alt="Logo" />
+        </a></div>
+
+      <div class="nav-02__list_wrapper  ">
+        <div class="nav-02__list nav-02__list--desktop">
+          <div class="nav-02__item">
+            <a class="button   button--black-outline  button--empty " href="https://altme.io/#slider-07-879531"
+              target="_self">
+              <p class="linkP"> Wallet features
+              </p>
+            </a>
+          </div>
+          <div class="nav-02__item" id="newsNav">
+            <a class="button   button--black-outline  button--empty " href="https://altme.io/#posts-05-876621"
+              target="_self">
+              <p class="linkP">News</p>
+
+            </a>
+          </div>
+          <div class="nav-02__item" id="roadmapNav">
+            <a href="https://altme.io/#features-09-390941" target="_self">
+              <p class="linkP">Roadmap</p>
+
+            </a>
+          </div>
+          <div class="nav-02__item" id="faqNav">
+            <a class="button   button--black-outline  button--empty " href="#superFaq" target="_self">
+              <p class="linkP">FAQ</p>
+            </a>
+          </div>
+          <div class="nav-02__item">
+
+            <a data-stripe-product-id="" data-stripe-mode="payment" data-successful-payment-url=""
+              data-cancel-payment-url="" class="button button--accent-bg "
+              href="/cdn-cgi/l/email-protection#e094888985929299a0818c948d85ce898f" target="_blank">
+              <div class="contactSpan">
+                <p class="contactP">Contact</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <div class=" text-center">
+
+    <div id="pairing">
+      <p class="my-5">Onboard users with proof of age above 13</p>
+
+    </div>
+
+    <div id="intro">
+      <p class="mb-5"></p>
+      <button class="btn btn-outline-dark" id="requestPermission">SYNCHRONIZE YOUR ALTME WALLET</button>
+    </div>
+
+    <div id="haveOver13">
+      <div id="firstBox">
+        <p id="doYouHave">Do you have a certificate to prove you are 13 years old or over ?</p>
+        <div id="yesAndNo">
+          <button class="btn btn-outline-dark" id="haveOver13Yes">YES</button>
+          <button class="btn btn-outline-dark" id="haveOver13No">NO</button>
+        </div>
+      </div>
+      <div id="webhook">
+        <p id="devCorner">The Developers' Corner : data received on webhook</p>
+        <textarea id="dataSent" rows="10" cols="100"></textarea>
+      </div>
+      <button class="btn btn-outline-dark my-2" onclick="Reset();" id="reset">RESET</button>
+    </div>
+
+
+
+  </div>
+
+
+  <script>
+    document.getElementById('reset').style.visibility = 'collapse';
+    document.getElementById('haveOver13').style.visibility = 'collapse';
+    document.getElementById('reset').style.height = '0px';
+    document.getElementById('haveOver13').style.height = '0px';
+
+    // Initiate DAppClient
+    const client = beacon.getDAppClientInstance({
+      name: 'Altme', // Name of the DApp,
+      disclaimerText: 'https://altme.io',
+    })
+
+
+
+    // Display the active account in the UI
+    const updateActiveAccount = () => {
+      client.getActiveAccount().then((activeAccount) => {
+        if (activeAccount) {
+          console.log(activeAccount)
+          document.getElementById("intro").innerHTML = '';
+          document.getElementById("haveOver13").style.visibility = 'visible';
+          document.getElementById("reset").style.visibility = 'visible';
+          document.getElementById('haveOver13').style.height = null;
+          document.getElementById('reset').style.height = null;
+
+        }
+      })
+    }
+
+
+    updateActiveAccount()
+
+
+    // Initiate a permission request
+    const requestPermission = (callback) => {
+      client
+        .requestPermissions(/*{ network: { type: beacon.NetworkType.DELPHINET } }*/)
+        .then((permissions) => {
+          console.log('permissions', permissions)
+          if (callback) {
+            callback(permissions)
+          }
+          updateActiveAccount();
+        })
+        .catch((error) => {
+          console.log('error during permission request', error)
+        })
+    }
+
+
+    // Add event listener to the button
+    document.getElementById('requestPermission').addEventListener('click', () => {
+      requestPermission()
+    })
+
+    // RESET button
+    function Reset() {
+      client.destroy().then(() => {
+        window.location.reload()
+      })
+    }
+
+
+    // Add event listener "Do you have a Gamer Pass" YES button
+    document.getElementById('haveOver13Yes').addEventListener('click', async () => {
+      var payload = '{{payload_gamer_pass}}'
+      client.getActiveAccount().then(async (activeAccount) => {
+        if (activeAccount) {
+          payload = payload + "?address=" + activeAccount.address
+          const signature = await client.requestSignPayload({
+            signingType: beacon.SigningType.RAW,
+            payload: payload
+          })
+          console.log('signature:', signature);
+        }
+      })
+
+    })
+    // Add event listener "Do you have a Gamer Pass" NO button
+    document.getElementById('haveOver13No').addEventListener('click', async () => {
+      document.getElementById("haveOver13").innerHTML = '';
+
+
+    })
+
+
+
+  </script>
+
+  <script>
+    var source = new EventSource('/sandbox/dapp/check_over13/stream');
+    source.onmessage = function (event) {
+      const result = JSON.parse(event.data)
+      if (result.over13 == 'verified' && result.id == '{{id}}') {
+        console.log(result)
+        document.getElementById("haveOver13").innerHTML = '';
+        document.getElementById("dataSent").innerHTML = result.data;
+
+
+      }
+
+    };
+  </script>
+  <script>
+    var source = new EventSource('/sandbox/dapp/verifier_stream');
+    source.onmessage = function (event) {
+      const result = JSON.parse(event.data);
+      console.log(result.message);
+      if (result.check == 'ok' & result.id == '{{id}}') {
+        console.log(result)
+        document.getElementById("haveOver13").innerHTML = '';
+        document.getElementById("dataSent").innerHTML = JSON.stringify(result.payload);
+
+
+      }
+      else {
+        window.alert(result.message);
+        //window.location.href="/analytics/";
+      }
+    };
+  </script>
+  <!--
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bs-init.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>-->
+
+
+</body>
+
+</html>
