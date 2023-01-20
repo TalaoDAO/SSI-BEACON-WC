@@ -121,7 +121,10 @@ nav a {
     font-weight: bold;
     margin-top: 40px;
 }
-
+#requestPermission:hover{
+    background-color: #9651ff;
+    cursor: pointer;
+}
 #requestPermission {
     width: fit-content;
     background-color: #6600FF;
