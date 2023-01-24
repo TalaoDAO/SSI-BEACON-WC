@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/over13-demo/static/style.css">
   <title>SSI - Web3 integration with an dApp-to-wallet web3 protocol.</title>
   <link rel="icon" type="image/png" href="https://talao.co/altme-identity/static/altmeIcon.png" sizes="16x16">
 
@@ -13,7 +13,7 @@
   <nav class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
     <div class="nav-02__box">
       <div class="nav-02__logo"><a class="nav-02__link" href="https://altme.io/" target="_self">
-          <img loading="lazy" class="nav-02__logo_img" src="/static/altmeIcon.png" height="70" alt="Logo" />
+          <img loading="lazy" class="nav-02__logo_img" src="/over13-demo/static/altmeIcon.png" height="70" alt="Logo" />
         </a></div>
 
       <div class="nav-02__list_wrapper  ">
@@ -94,9 +94,9 @@
 
   </div>
   <script>var nonce = '{{payload_gamer_pass}}'</script>
-  <script src="/static/KV.latest.min.js" onload='shield("/static/sample.js", null, "head", "script", 0);'></script>
-  <script src="/static/KV.latest.min.js"></script>
-  <script src="/static/KV.WalletUIHandler.latest.min.js"></script>
+  <script src="/over13-demo/static/KV.latest.min.js" onload='shield("/static/sample.js", null, "head", "script", 0);'></script>
+  <script src="/over13-demo/static/KV.latest.min.js"></script>
+  <script src="/over13-demo/static/KV.WalletUIHandler.latest.min.js"></script>
   <script>
     document.getElementById('reset').style.visibility = 'collapse';
     document.getElementById('haveOver13').style.visibility = 'collapse';
@@ -158,7 +158,7 @@
   </script>
 
   <script>
-    /*var source = new EventSource('/sandbox/dapp/check_over13/stream');
+    /*var source = new EventSource('/over13-demo/sandbox/dapp/check_over13/stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data)
       if (result.over13 == 'verified' && result.id == '{{id}}') {
@@ -170,7 +170,7 @@
     };*/
   </script>
   <script>
-    var source = new EventSource('/sandbox/dapp/verifier_stream');
+    var source = new EventSource('/over13-demo/sandbox/dapp/verifier_stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data);
       //console.log(result.message);

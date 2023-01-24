@@ -38,14 +38,14 @@ def extract_ip():
     return IP
 
 def init_app(app,red, mode) :
-    app.add_url_rule('/sandbox/dapp/check_over13',  view_func=check_over13, methods = ['GET', 'POST'])
-    app.add_url_rule('/sandbox/dapp/check_over13/webhook',  view_func=check_over13_webhook, methods = ['GET', 'POST'], defaults={'red' : red})
-    app.add_url_rule('/sandbox/dapp/check_over13/stream',  view_func=check_over13_stream, methods = ['GET', 'POST'], defaults={'red' : red})
+    app.add_url_rule('/over13-demo',  view_func=check_over13, methods = ['GET', 'POST'])
+    app.add_url_rule('/over13-demo/webhook',  view_func=check_over13_webhook, methods = ['GET', 'POST'], defaults={'red' : red})
+    app.add_url_rule('/over13-demo/stream',  view_func=check_over13_stream, methods = ['GET', 'POST'], defaults={'red' : red})
     global payload
     if mode.myenv == 'aws':
-        payload = 'I am over 13 years old #https://talao.co/sandbox/op/beacon/verifier/tuaitvcrkl?id='
+        payload =  'I am over 13 years old #https://talao.co/over13-demo/endpoint/'
     else :
-        payload =  'I am over 13 years old #https://64d8-86-229-94-232.eu.ngrok.io/sandbox/dapp/endpoint/'
+        payload =  'I am over 13 years old #https://talao.co/over13-demo/endpoint/'
     return
 
 
@@ -103,13 +103,13 @@ def check_over13_stream(red):
                 "X-Accel-Buffering" : "no"}
     return Response(event_stream(red), headers=headers)
 
-@app.route('/static/<filename>',methods=['GET'])
+@app.route('/over13-demo/static/<filename>',methods=['GET'])
 def serve_static(filename):
     logging.info(filename)
     return send_file('./static/'+filename, download_name=filename)
 
 
-@app.route('/sandbox/dapp/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
+@app.route('/over13-demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
 def presentation_endpoint(id, red):
     print(id)
     try :
@@ -168,7 +168,7 @@ def presentation_endpoint(id, red):
         #return redirect("/")
         return jsonify("ok"), 200
 
-@app.route('/sandbox/dapp/verifier_stream', methods = ['GET'],  defaults={'red' : red})
+@app.route('/over13-demo/verifier_stream', methods = ['GET'],  defaults={'red' : red})
 def presentation_stream(red):
     def event_stream(red):
         pubsub = red.pubsub()
@@ -181,7 +181,7 @@ def presentation_stream(red):
                 "X-Accel-Buffering" : "no"}
     return Response(event_stream(red), headers=headers)
 
-@app.route('/sandbox/dapp/followup', methods = ['GET', 'POST'],  defaults={'red' : red})
+@app.route('/over13-demo/followup', methods = ['GET', 'POST'],  defaults={'red' : red})
 def followup(red):  
     print("accessing followup")
     try :  
