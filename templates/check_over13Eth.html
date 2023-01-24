@@ -170,7 +170,7 @@
     };*/
   </script>
   <script>
-    var source = new EventSource('/over13-demo/sandbox/dapp/verifier_stream');
+    var source = new EventSource('/over13-demo/verifier_stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data);
       //console.log(result.message);
