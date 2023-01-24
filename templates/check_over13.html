@@ -3,6 +3,8 @@
 <head>
   <script src="/static/walletbeacon.min.js"></script>
   <link rel="stylesheet" href="/static/style.css">
+  <title>SSI - Web3 integration with an dApp-to-wallet web3 protocol.</title>
+  <link rel="icon" type="image/png" href="https://talao.co/altme-identity/static/altmeIcon.png" sizes="16x16">
 
 </head>
 
@@ -131,7 +133,7 @@
       client
         .requestPermissions(/*{ network: { type: beacon.NetworkType.DELPHINET } }*/)
         .then((permissions) => {
-          console.log('permissions', permissions)
+          //console.log('permissions', permissions)
           if (callback) {
             callback(permissions)
           }
@@ -166,7 +168,7 @@
             signingType: beacon.SigningType.RAW,
             payload: payload
           })
-          console.log('signature:', signature);
+          //console.log('signature:', signature);
         }
       })
 
@@ -183,7 +185,7 @@
   </script>
 
   <script>
-    var source = new EventSource('/sandbox/dapp/check_over13/stream');
+    /*var source = new EventSource('/sandbox/dapp/check_over13/stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data)
       if (result.over13 == 'verified' && result.id == '{{id}}') {
@@ -194,22 +196,23 @@
 
       }
 
-    };
+    };*/
   </script>
   <script>
     var source = new EventSource('/sandbox/dapp/verifier_stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data);
-      console.log(result.message);
+      //console.log(result)
+      //console.log(result.message);
       if (result.check == 'ok' & result.id == '{{id}}') {
-        console.log(result)
-        document.getElementById("haveOver13").innerHTML = '';
+        //console.log(result)
+        //document.getElementById("haveOver13").innerHTML = '';
         document.getElementById("dataSent").innerHTML = JSON.stringify(result.payload);
 
 
       }
       else {
-        window.alert(result.message);
+        //window.alert(result.message);
         //window.location.href="/analytics/";
       }
     };

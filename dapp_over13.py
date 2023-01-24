@@ -45,7 +45,7 @@ def init_app(app,red, mode) :
     if mode.myenv == 'aws':
         payload = 'I am over 13 years old #https://talao.co/sandbox/op/beacon/verifier/tuaitvcrkl?id='
     else :
-        payload =  'I am over 13 years old #https://c6c9-86-229-94-232.eu.ngrok.io/sandbox/dapp/endpoint/'
+        payload =  'I am over 13 years old #https://64d8-86-229-94-232.eu.ngrok.io/sandbox/dapp/endpoint/'
     return
 
 
@@ -226,5 +226,6 @@ if __name__ == '__main__':
     
     init_app(app,red,mode)
     print(mode.server)
-    app.run( host = mode.IP , port= 2000, debug =True)
+    app.run( host = "" , port= 2000, debug =True)
     #,ssl_context='adhoc'
+    #mode.IP

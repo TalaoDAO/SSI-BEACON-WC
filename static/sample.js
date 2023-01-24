@@ -27,7 +27,12 @@ KV.init(["/static/KV.WalletUIHandler.latest.min.js"]).then(function (res) {
   walletui.on("wallet_connected", function (msg) {
     console.log("connected", msg);
     KV.wallet.web3().eth.getAccounts().then(function (f) { console.log(f) })
-    
+    document.getElementById("intro").innerHTML = '';
+    document.getElementById("haveOver13").style.visibility = 'visible';
+    document.getElementById("reset").style.visibility = 'visible';
+    document.getElementById('haveOver13').style.height = null;
+    document.getElementById('reset').style.height = null;
+
   });
   walletui.on("wallet_error", function (msg) {
     console.log("wallet err", msg);

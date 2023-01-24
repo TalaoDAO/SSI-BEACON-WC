@@ -2,6 +2,8 @@
 
 <head>
   <link rel="stylesheet" href="/static/style.css">
+  <title>SSI - Web3 integration with an dApp-to-wallet web3 protocol.</title>
+  <link rel="icon" type="image/png" href="https://talao.co/altme-identity/static/altmeIcon.png" sizes="16x16">
 
 </head>
 
@@ -120,7 +122,9 @@
 
 
     // RESET button
-
+    function Reset() {
+      KV.wallet.disconnect()
+    }
 
     // Add event listener "Do you have a Gamer Pass" YES button
     document.getElementById('haveOver13Yes').addEventListener('click', async () => {
@@ -129,15 +133,15 @@
       KV.wallet.web3().eth.getAccounts().then(function (account) {
         nonce = nonce + "?address=" + account
         console.log(account)
-        console.log("nonce " + nonce)
+        //console.log("nonce " + nonce)
         var hex = ''
         for (var i = 0; i < nonce.length; i++) {
           hex += '' + nonce.charCodeAt(i).toString(16)
         }
         var hexMessage = "0x" + hex
-        console.log(hexMessage)
-        console.log(typeof account)
-        console.log("here")
+        //console.log(hexMessage)
+        //console.log(typeof account)
+        //console.log("here")
         KV.wallet.web3().eth.personal.sign(hexMessage, account[0]).then()
 
 
@@ -154,29 +158,29 @@
   </script>
 
   <script>
-    var source = new EventSource('/sandbox/dapp/check_over13/stream');
+    /*var source = new EventSource('/sandbox/dapp/check_over13/stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data)
       if (result.over13 == 'verified' && result.id == '{{id}}') {
-        document.getElementById("haveOver13").innerHTML = '';
+        //document.getElementById("haveOver13").innerHTML = '';
         document.getElementById("welcomeText").innerHTML = 'Thank you for your visit !';
         document.getElementById("dataSent").innerHTML = result.data;
       }
 
-    };
+    };*/
   </script>
   <script>
     var source = new EventSource('/sandbox/dapp/verifier_stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data);
-      console.log(result.message);
+      //console.log(result.message);
       if (result.check == 'ok' & result.id == '{{id}}') {
-        document.getElementById("haveOver13").innerHTML = '';
-        document.getElementById("welcomeText").innerHTML = 'Thank you for your visit !';
+        //document.getElementById("haveOver13").innerHTML = '';
+        //document.getElementById("welcomeText").innerHTML = 'Thank you for your visit !';
         document.getElementById("dataSent").innerHTML = JSON.stringify(result.payload);
       }
       else {
-        window.alert(result.message);
+        //window.alert(result.message);
         //window.location.href="/analytics/";
       }
     };
