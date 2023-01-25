@@ -108,9 +108,7 @@
 
     disconnect = () => {
       console.log("disconnect")
-      KV.wallet.disconnect().then(
-        window.location.reload()
-      )
+      KV.wallet.disconnect();window.location.reload();
     }
 
     // Display the active account in the UI
