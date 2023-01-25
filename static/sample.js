@@ -10,7 +10,6 @@ KV.init(["/over13-demo/static/KV.WalletUIHandler.latest.min.js"]).then(function 
     btn_disconnect_label: "Disconnect",
     web3network: KV.rpc_codes.ETH_MAINNET,
     buttonCustom: document.getElementById("requestPermission"),
-    //coinbaseButton: document.getElementById("kvwalletmodal_coinbase_btn")
   });
   walletui.on("btnconnect_clicked", function (activity_when) {
     console.log("btnconnect", activity_when);

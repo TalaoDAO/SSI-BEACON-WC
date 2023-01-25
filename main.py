@@ -14,17 +14,64 @@ import datetime
 app = Flask(__name__,static_folder=os.path.abspath('/home/achille/wallet-link/static'))
 app.secret_key =json.dumps(json.load(open("keys.json", "r"))["appSecretKey"])
 red= redis.Redis(host='127.0.0.1', port=6379, db=0)
-pattern = {"type": "VerifiablePresentationRequest",
-            "query": [
+
+patternEth = {
+    "type": "VerifiablePresentationRequest",
+    "query": [
+        {
+            "type": "QueryByExample",
+            "credentialQuery": [
                 {
-                    "type": "QueryByExample",
-                    "credentialQuery": []
-                }]
-            }
+                    "required": True,
+                    "example": {
+                        "type": "Over13"
+                    }
+                },
+                {
+                    "required": True,
+                    "example": {
+                        "type": "EthereumAssociatedAddress"
+                    }
+                }
+            ]
+        }
+    ],
+    "challenge": "d0f43665-9c0a-11ed-9db1-0a1628958560",
+    "domain": "https://talao.co/"
+}
+
+patternTezos = {
+    
+    "type": "VerifiablePresentationRequest",
+    "query": [
+        {
+            "type": "QueryByExample",
+            "credentialQuery": [
+                {
+                    "required": True,
+                    "example": {
+                        "type": "Over13"
+                    }
+                },
+                {
+                    "required": True,
+                    "example": {
+                        "type": "TezosAssociatedAddress"
+                    }
+                }
+            ]
+        }
+    ],
+    "challenge": "d0f43665-9c0a-11ed-9db1-0a1628958560",
+    "domain": "https://talao.co/"
+}
+
+
 myenv = os.getenv('MYENV')
 if not myenv :
    myenv='thierry'
 mode = environment.currentMode(myenv)
+
 
 def extract_ip():
     st = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -36,6 +83,7 @@ def extract_ip():
     finally:
         st.close()
     return IP
+
 
 def init_app(app,red, mode) :
     app.add_url_rule('/over13-demo',  view_func=check_over13, methods = ['GET', 'POST'])
@@ -57,18 +105,20 @@ def check_over13():
     logging.info("check_over13")
     global payload_gamer_pass
     id = str(uuid.uuid1())
-    #id = str(uuid.uuid1())
-    pattern['challenge'] = str(uuid.uuid1()) # nonce
-    IP=extract_ip()
-    pattern['domain'] = 'http://' + IP
-    # l'idee ici est de créer un endpoint dynamique
-    red.set(id,  json.dumps(pattern))
     if blockchain=="tezos":
+        patternTezos['challenge'] = str(uuid.uuid1()) # nonce
+        IP=extract_ip()
+        patternTezos['domain'] = 'http://' + IP
+        red.set(id,  json.dumps(patternTezos))
         return render_template('check_over13.html',
                              id = id,
                              payload_gamer_pass = payload + id
                              )
     elif blockchain=="ethereum":
+        patternEth['challenge'] = str(uuid.uuid1()) # nonce
+        IP=extract_ip()
+        patternEth['domain'] = 'http://' + IP
+        red.set(id,  json.dumps(patternEth))
         return render_template('check_over13Eth.html',
                              id = id,
                              payload_gamer_pass = payload + id
@@ -76,8 +126,6 @@ def check_over13():
     else:
         return render_template('menu.html')
 
-
-  
 
 def check_over13_webhook(red) :
     data = request.get_json()
@@ -102,6 +150,7 @@ def check_over13_stream(red):
                 "Cache-Control" : "no-cache",
                 "X-Accel-Buffering" : "no"}
     return Response(event_stream(red), headers=headers)
+
 
 @app.route('/over13-demo/static/<filename>',methods=['GET'])
 def serve_static(filename):
@@ -164,9 +213,8 @@ def presentation_endpoint(id, red):
          
                                 })           
         red.publish('verifier', event_data)
-        
-        #return redirect("/")
         return jsonify("ok"), 200
+
 
 @app.route('/over13-demo/verifier_stream', methods = ['GET'],  defaults={'red' : red})
 def presentation_stream(red):
@@ -180,6 +228,7 @@ def presentation_stream(red):
                 "Cache-Control" : "no-cache",
                 "X-Accel-Buffering" : "no"}
     return Response(event_stream(red), headers=headers)
+
 
 @app.route('/over13-demo/followup', methods = ['GET', 'POST'],  defaults={'red' : red})
 def followup(red):  
@@ -210,16 +259,13 @@ def followup(red):
         # on ne presente que le premier
         credential = json.dumps(presentation['verifiableCredential'][0], indent=4, ensure_ascii=False)
     presentation = json.dumps(presentation, indent=4, ensure_ascii=False)
-    dictionnaire=json.loads(credential)
-    #print(presentation)
-    
+    dictionnaire=json.loads(credential)    
     typeCredential=dictionnaire["type"][1]
     print("type credential : "+typeCredential)
-
     if(typeCredential=="Over13"):
         print("presentation " +str(presentation))
-        
     return None
+
 
 if __name__ == '__main__':
     logging.info("app init")
@@ -229,4 +275,3 @@ if __name__ == '__main__':
     #,ssl_context='adhoc'
     #mode.IP
 init_app(app,red,mode)
-

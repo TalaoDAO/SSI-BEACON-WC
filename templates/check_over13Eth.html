@@ -109,6 +109,7 @@
     disconnect = () => {
       console.log("disconnect")
       KV.wallet.disconnect()
+      window.location.reload()
     }
 
     // Display the active account in the UI
@@ -128,22 +129,16 @@
 
     // Add event listener "Do you have a Gamer Pass" YES button
     document.getElementById('haveOver13Yes').addEventListener('click', async () => {
-      //const signature = 
-      ///console.log('signature:', signature);
+
       KV.wallet.web3().eth.getAccounts().then(function (account) {
         nonce = nonce + "?address=" + account
         console.log(account)
-        //console.log("nonce " + nonce)
         var hex = ''
         for (var i = 0; i < nonce.length; i++) {
           hex += '' + nonce.charCodeAt(i).toString(16)
         }
         var hexMessage = "0x" + hex
-        //console.log(hexMessage)
-        //console.log(typeof account)
-        //console.log("here")
         KV.wallet.web3().eth.personal.sign(hexMessage, account[0]).then()
-
 
       })
     })
@@ -153,30 +148,10 @@
       document.getElementById("welcomeText").innerHTML = 'Thank you for your visit !';
     })
 
-
-
-  </script>
-
-  <script>
-    /*var source = new EventSource('/over13-demo/sandbox/dapp/check_over13/stream');
-    source.onmessage = function (event) {
-      const result = JSON.parse(event.data)
-      if (result.over13 == 'verified' && result.id == '{{id}}') {
-        //document.getElementById("haveOver13").innerHTML = '';
-        document.getElementById("welcomeText").innerHTML = 'Thank you for your visit !';
-        document.getElementById("dataSent").innerHTML = result.data;
-      }
-
-    };*/
-  </script>
-  <script>
     var source = new EventSource('/over13-demo/verifier_stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data);
-      //console.log(result.message);
       if (result.check == 'ok' & result.id == '{{id}}') {
-        //document.getElementById("haveOver13").innerHTML = '';
-        //document.getElementById("welcomeText").innerHTML = 'Thank you for your visit !';
         document.getElementById("dataSent").innerHTML = JSON.stringify(result.payload);
       }
       else {
@@ -185,11 +160,6 @@
       }
     };
   </script>
-  <!--
-<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
-<script src="{{ url_for('static', filename='bs-init.js') }}"></script>
-<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>-->
-
 
 </body>
 
