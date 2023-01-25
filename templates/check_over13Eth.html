@@ -103,27 +103,10 @@
 
     var newGamerPass = false
 
-    // Initiate DAppClient
-
-
-    disconnect = () => {
+    // RESET button
+    Reset = () => {
       console.log("disconnect")
       KV.wallet.disconnect();window.location.reload();
-    }
-
-    // Display the active account in the UI
-
-
-    // Initiate a permission request
-
-
-
-    // Add event listener to the button
-
-
-    // RESET button
-    function Reset() {
-      KV.wallet.disconnect()
     }
 
     // Add event listener "Do you have a Gamer Pass" YES button
