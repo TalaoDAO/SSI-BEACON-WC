@@ -306,7 +306,7 @@ def check_over18():
     red.set(id,  json.dumps(pattern))
     html_string="""<html>
 <head>
-  <link rel="stylesheet" href="/over18-demo/static/style.css">
+  <link rel="stylesheet" href="/over13-demo/static/style18.css">
   <title>SSI - Web3 integration with an dApp-to-wallet web3 protocol.</title>
   <link rel="icon" type="image/png" href="https://ucarecdn.com/1c1db4c6-4cf3-45ff-a79c-9e30f5062523/" sizes="16x16">
 </head>
@@ -422,10 +422,6 @@ def check_over18_stream(red):
     return Response(event_stream(red), headers=headers)
 
 
-@app.route('/over18-demo/static/<filename>',methods=['GET'])
-def serve_static(filename):
-    logging.info(filename)
-    return send_file('./static/'+filename, download_name=filename)
 
 
 @app.route('/over18-demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
