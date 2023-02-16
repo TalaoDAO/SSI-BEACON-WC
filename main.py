@@ -410,7 +410,7 @@ def check_over18_webhook(red) :
 
 
 def check_over18_stream(red):
-    def event_stream(red):
+    def event_stream18(red):
         pubsub = red.pubsub()
         pubsub.subscribe('check_over18')
         for message in pubsub.listen():
@@ -425,7 +425,7 @@ def check_over18_stream(red):
 
 
 @app.route('/over18-demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
-def presentation_endpoint(id, red):
+def presentation_endpoint18(id, red):
     print(id)
     try :
         my_pattern = json.loads(red.get(id).decode())
@@ -482,7 +482,7 @@ def presentation_endpoint(id, red):
 
 
 @app.route('/over18-demo/verifier_stream', methods = ['GET'],  defaults={'red' : red})
-def presentation_stream(red):
+def presentation_stream18(red):
     def event_stream(red):
         pubsub = red.pubsub()
         pubsub.subscribe('verifier')
@@ -496,7 +496,7 @@ def presentation_stream(red):
 
 
 @app.route('/over18-demo/followup', methods = ['GET', 'POST'],  defaults={'red' : red})
-def followup(red):  
+def followup18(red):  
     print("accessing followup")
     try :  
         presentation = json.loads(red.get(request.args['id']).decode())
