@@ -14,7 +14,7 @@ from flask_qrcode import QRcode
 
 
 app = Flask(__name__,static_folder=os.path.abspath('/home/achille/wallet-link/static'))
-app.secret_key =json.dumps(json.load(open("keys.json", "r"))["appSecretKey"])
+app.secret_key ="Talao"
 red= redis.Redis(host='127.0.0.1', port=6379, db=0)
 qrcode = QRcode(app)
 pattern = {
