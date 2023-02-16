@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, Response,Flask,send_file
+from flask import render_template, request, jsonify, Response,Flask,send_file,render_template_string
 import uuid 
 import json
 import logging
