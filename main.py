@@ -51,7 +51,7 @@ patternEth = {
                 {
                     "required": True,
                     "example": {
-                        "type": "EthereumAssociatedAddress"
+                        "type": "EthereumPooAddress"
                     }
                 }
             ]
@@ -77,7 +77,7 @@ patternTezos = {
                 {
                     "required": True,
                     "example": {
-                        "type": "TezosAssociatedAddress"
+                        "type": "TezosPooAddress"
                     }
                 }
             ]
