@@ -107,22 +107,22 @@ def extract_ip():
 
 
 def init_app(app,red, mode) :
-    app.add_url_rule('/over13-demo',  view_func=check_over13, methods = ['GET', 'POST'])
-    app.add_url_rule('/over13-demo/webhook',  view_func=check_over13_webhook, methods = ['GET', 'POST'], defaults={'red' : red})
-    app.add_url_rule('/over13-demo/stream',  view_func=check_over13_stream, methods = ['GET', 'POST'], defaults={'red' : red})
-    app.add_url_rule('/over13-demo/over18-demo',  view_func=check_over18, methods = ['GET', 'POST'])
-    app.add_url_rule('/over13-demo/over18-demo/webhook',  view_func=check_over18_webhook, methods = ['GET', 'POST'], defaults={'red' : red})
-    app.add_url_rule('/over13-demo/over18-demo/stream',  view_func=check_over18_stream, methods = ['GET', 'POST'], defaults={'red' : red})
+    app.add_url_rule('/demo',  view_func=check_over13, methods = ['GET', 'POST'])
+    app.add_url_rule('/demo/webhook',  view_func=check_over13_webhook, methods = ['GET', 'POST'], defaults={'red' : red})
+    app.add_url_rule('/demo/stream',  view_func=check_over13_stream, methods = ['GET', 'POST'], defaults={'red' : red})
+    app.add_url_rule('/demo/over18-demo',  view_func=check_over18, methods = ['GET', 'POST'])
+    app.add_url_rule('/demo/over18-demo/webhook',  view_func=check_over18_webhook, methods = ['GET', 'POST'], defaults={'red' : red})
+    app.add_url_rule('/demo/over18-demo/stream',  view_func=check_over18_stream, methods = ['GET', 'POST'], defaults={'red' : red})
     global payload
     if mode.myenv == 'aws':
-        payload =  'I am over 13 years old #https://talao.co/over13-demo/endpoint/'
+        payload =  'I am over 13 years old #https://talao.co/demo/endpoint/'
     else :
-        payload =  'I am over 13 years old #https://talao.co/over13-demo/endpoint/'    
+        payload =  'I am over 13 years old #https://talao.co/demo/endpoint/'    
     global payload18
     if mode.myenv == 'aws':
-        payload18 =  'https://talao.co/over13-demo/over18-demo/endpoint/'
+        payload18 =  'https://talao.co/demo/over18-demo/endpoint/'
     else :
-        payload18 =  'https://5118-2a01-e34-ec69-84a0-73c8-931d-6fff-15b3.eu.ngrok.io/over13-demo/over18-demo/endpoint/'
+        payload18 =  'https://5118-2a01-e34-ec69-84a0-73c8-931d-6fff-15b3.eu.ngrok.io/demo/over18-demo/endpoint/'
     return
 
 
@@ -181,13 +181,13 @@ def check_over13_stream(red):
     return Response(event_stream(red), headers=headers)
 
 
-@app.route('/over13-demo/static/<filename>',methods=['GET'])
+@app.route('/demo/static/<filename>',methods=['GET'])
 def serve_static(filename):
     logging.info(filename)
     return send_file('./static/'+filename, download_name=filename)
 
 
-@app.route('/over13-demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
+@app.route('/demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
 def presentation_endpoint(id, red):
     print(id)
     try :
@@ -245,7 +245,7 @@ def presentation_endpoint(id, red):
         return jsonify("ok"), 200
 
 
-@app.route('/over13-demo/verifier_stream', methods = ['GET'],  defaults={'red' : red})
+@app.route('/demo/verifier_stream', methods = ['GET'],  defaults={'red' : red})
 def presentation_stream(red):
     def event_stream(red):
         pubsub = red.pubsub()
@@ -259,7 +259,7 @@ def presentation_stream(red):
     return Response(event_stream(red), headers=headers)
 
 
-@app.route('/over13-demo/followup', methods = ['GET', 'POST'],  defaults={'red' : red})
+@app.route('/demo/followup', methods = ['GET', 'POST'],  defaults={'red' : red})
 def followup(red):  
     print("accessing followup")
     try :  
@@ -306,7 +306,7 @@ def check_over18():
     red.set(id,  json.dumps(pattern))
     html_string="""<html>
 <head>
-  <link rel="stylesheet" href="/over13-demo/static/style18.css">
+  <link rel="stylesheet" href="/demo/static/style18.css">
   <title>SSI - Web3 integration with an dApp-to-wallet web3 protocol.</title>
   <link rel="icon" type="image/png" href="https://ucarecdn.com/1c1db4c6-4cf3-45ff-a79c-9e30f5062523/" sizes="16x16">
 </head>
@@ -377,7 +377,7 @@ def check_over18():
     </div>-->
   </div>
   <script>
-    var source = new EventSource('/over13-demo/over18-demo/verifier_stream');
+    var source = new EventSource('/demo/over18-demo/verifier_stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data);
       if (result.check == 'ok' & result.id == '{{id}}') {
@@ -424,7 +424,7 @@ def check_over18_stream(red):
 
 
 
-@app.route('/over13-demo/over18-demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
+@app.route('/demo/over18-demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
 def presentation_endpoint18(id, red):
     print(id)
     try :
@@ -481,7 +481,7 @@ def presentation_endpoint18(id, red):
         return jsonify("ok"), 200
 
 
-@app.route('/over13-demo/over18-demo/verifier_stream', methods = ['GET'],  defaults={'red' : red})
+@app.route('/demo/over18-demo/verifier_stream', methods = ['GET'],  defaults={'red' : red})
 def presentation_stream18(red):
     def event_stream(red):
         pubsub = red.pubsub()
@@ -495,7 +495,7 @@ def presentation_stream18(red):
     return Response(event_stream(red), headers=headers)
 
 
-@app.route('/over13-demo/over18-demo/followup', methods = ['GET', 'POST'],  defaults={'red' : red})
+@app.route('/demo/over18-demo/followup', methods = ['GET', 'POST'],  defaults={'red' : red})
 def followup18(red):  
     print("accessing followup")
     try :  
@@ -533,7 +533,6 @@ def followup18(red):
 
 if __name__ == '__main__':
     logging.info("app init")
-    
     print(mode.server)
     app.run( host = "" , port= 2000, debug =True)
     #,ssl_context='adhoc'

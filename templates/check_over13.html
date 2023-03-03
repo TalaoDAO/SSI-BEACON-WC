@@ -1,8 +1,8 @@
 <html>
 
 <head>
-  <script src="/over13-demo/static/walletbeacon.min.js"></script>
-  <link rel="stylesheet" href="/over13-demo/static/style.css">
+  <script src="/demo/static/walletbeacon.min.js"></script>
+  <link rel="stylesheet" href="/demo/static/style.css">
   <title>Bridging SSI wallets to Web3 dApp.</title>
   <link rel="icon" type="image/png" href="https://talao.co/altme-identity/static/altmeIcon.png" sizes="16x16">
 
@@ -14,7 +14,7 @@
   <nav class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
     <div class="nav-02__box">
       <div class="nav-02__logo"><a class="nav-02__link" href="https://altme.io/" target="_self">
-          <img loading="lazy" class="nav-02__logo_img" src="/over13-demo/static/altmeIcon.png" height="70" alt="Logo" />
+          <img loading="lazy" class="nav-02__logo_img" src="/demo/static/altmeIcon.png" height="70" alt="Logo" />
         </a></div>
 
       <div class="nav-02__list_wrapper  ">
@@ -173,7 +173,7 @@
       document.getElementById("haveOver13").innerHTML = '';
     })
 
-    var source = new EventSource('/over13-demo/verifier_stream');
+    var source = new EventSource('/demo/verifier_stream');
     source.onmessage = function (event) {
       const result = JSON.parse(event.data);
       if (result.check == 'ok' & result.id == '{{id}}') {
