@@ -1,13 +1,66 @@
 <!DOCTYPE html>
 <html>
-  <head></head>
+  <head><link rel="stylesheet" href="/demo/static/style.css">
+    <title>Cross-chain fidelity card demo.</title>
+    <link rel="icon" type="image/png" href="https://talao.co/altme-identity/static/altmeIcon.png" sizes="16x16"></head>
   <body>
-
-      <div class="text-center my-5">  
-          <h1 class="mb-2">QRcode for test</h1>
-          <h4>Scan the QRCode below with your wallet </h4> 
-          <div class="my-5"><img src="{{ qrcode(url) }}"></div>
-          <button  type="button"  onclick="goBack()">Back</button>
+    <nav class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
+        <div class="nav-02__box">
+          <div class="nav-02__logo"><a class="nav-02__link" href="https://altme.io/" target="_self">
+              <img loading="lazy" class="nav-02__logo_img" src="/demo/static/altmeIcon.png" height="70" alt="Logo" />
+            </a></div>
+    
+          <div class="nav-02__list_wrapper  ">
+            <div class="nav-02__list nav-02__list--desktop">
+              <div class="nav-02__item">
+                <a class="button   button--black-outline  button--empty " href="https://altme.io/#slider-07-879531"
+                  target="_self">
+                  <p class="linkP"> Wallet features
+                  </p>
+                </a>
+              </div>
+              <div class="nav-02__item" id="newsNav">
+                <a class="button   button--black-outline  button--empty " href="https://altme.io/#posts-05-876621"
+                  target="_self">
+                  <p class="linkP">News</p>
+    
+                </a>
+              </div>
+              <div class="nav-02__item" id="roadmapNav">
+                <a href="https://altme.io/#features-09-390941" target="_self">
+                  <p class="linkP">Roadmap</p>
+    
+                </a>
+              </div>
+              <div class="nav-02__item" id="faqNav">
+                <a class="button   button--black-outline  button--empty " href="#superFaq" target="_self">
+                  <p class="linkP">FAQ</p>
+                </a>
+              </div>
+              <div class="nav-02__item">
+    
+                <a data-stripe-product-id="" data-stripe-mode="payment" data-successful-payment-url=""
+                  data-cancel-payment-url="" class="button button--accent-bg "
+                  href="/cdn-cgi/l/email-protection#e094888985929299a0818c948d85ce898f" target="_blank">
+                  <div class="contactSpan">
+                    <p class="contactP">Contact</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+    
+    
+          </div>
+    
+        </div>
+    
+      </nav>
+      <div id="bloometaDiv">  
+          <!--<h1 >QRcode for test</h1>-->
+          <h4 style="font-size: 40px;
+          font-weight: bold;">Scan the QRCode below with your wallet to get a fidelity card</h4> 
+          <div if="bloometaQRCode"><img src="{{ qrcode(url) }}"></div>
+          <!--<button  type="button"  onclick="goBack()">Back</button>-->
       </div>         
     <script>function goBack() {  window.history.back();}</script> 
   
