@@ -683,8 +683,8 @@ async def bloometa_endpoint(id, red, mode):
 if __name__ == '__main__':
     logging.info("app init")
     print(mode.server)
-    init_app(app,red,mode)
     app.run( host = "" , port= 2000, debug =True)
     #,ssl_context='adhoc'
     #mode.IP
+init_app(app,red,mode)
 
