@@ -551,7 +551,7 @@ def followup18(red):
 def bloometa_qrcode (mode) :
     return render_template(
         'bloometa.html',
-        url=mode.server + '/demo/bloometa/membershipcard/' + str(uuid.uuid1())
+        url=mode.server + 'demo/bloometa/membershipcard/' + str(uuid.uuid1())
     )
 
 async def bloometa_endpoint(id, red, mode): 
