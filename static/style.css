@@ -235,3 +235,7 @@ nav a {
     align-items: center;
     gap: 30px;
 }
+#bloometaQRCode{
+    width: 300px;
+    height: 300px;
+}
