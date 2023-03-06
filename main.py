@@ -555,7 +555,7 @@ def bloometa_qrcode (mode) :
     )
 
 async def bloometa_endpoint(id, red, mode): 
-    if mode.myenv == 'aws' :
+    """if mode.myenv == 'aws' :
         try : 
             x_api_key = request.headers['X-API-KEY']
         except :
@@ -567,7 +567,7 @@ async def bloometa_endpoint(id, red, mode):
             logging.warning('api key is incorrect')
             endpoint_response= {"error": "unauthorized_client"}
             headers = {'Content-Type': 'application/json',  "Cache-Control": "no-store"}
-            return Response(response=json.dumps(endpoint_response), status=401, headers=headers)
+            return Response(response=json.dumps(endpoint_response), status=401, headers=headers)"""
     
     if request.method == 'GET': 
         credential = json.load(open('./BloometaPass.jsonld', 'r'))
