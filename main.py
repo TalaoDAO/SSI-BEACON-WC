@@ -15,14 +15,13 @@ from flask import jsonify, request,  Response, render_template
 import requests
 import json
 import uuid
-from datetime import timedelta, datetime
 import logging
 logging.basicConfig(level=logging.INFO)
 #from flask_babel import _
 import didkit
 #from components import message
 
-OFFER_DELAY = timedelta(seconds= 180)
+OFFER_DELAY = datetime.timedelta(seconds= 180)
 
 issuer_key = json.dumps(json.load(open("keys.json", "r"))['talao_Ed25519_private_key'])
 issuer_vm = "did:web:app.altme.io:issuer#key-1"
