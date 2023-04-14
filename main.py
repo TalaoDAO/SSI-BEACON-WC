@@ -204,7 +204,7 @@ def serve_static(filename):
 
 @app.route('/demo/kyc/<code>',methods=['GET'])
 def kyc_error(code):
-    if code==400:
+    if code=="400":
         return jsonify("error kyc"),200
     else:
         return jsonify("kyc completed"),200
