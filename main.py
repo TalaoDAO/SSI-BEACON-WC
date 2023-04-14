@@ -202,6 +202,12 @@ def serve_static(filename):
     logging.info(filename)
     return send_file('./static/'+filename, download_name=filename)
 
+@app.route('/demo/kyc/<code>',methods=['GET'])
+def kyc_error(code):
+    if code==400:
+        return jsonify("error kyc"),200
+    else:
+        return jsonify("kyc completed"),200
 
 @app.route('/demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
 def presentation_endpoint(id, red):
