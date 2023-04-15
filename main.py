@@ -169,7 +169,8 @@ def check_over13():
                              payload_gamer_pass = payload + id
                              )
     else:
-        return render_template('menu.html')
+        response = requests.get('https://6914-2a01-e34-eca6-33c0-aa2b-d40d-1c63-d7a3.ngrok-free.app/id360/get_link',headers={"apiKey":"test-demo"})
+        return render_template('menu.html',url_kyc=response.json()["url"]+"&callback=talao.co/demo/id360")
 
 
 def check_over13_webhook(red) :
@@ -206,8 +207,10 @@ def serve_static(filename):
 def kyc_error(code):
     if code=="400":
         return jsonify("error kyc"),200
-    else:
+    elif code=="200":
         return jsonify("kyc completed"),200
+    else:
+        return jsonify("invalid error code"),200
 
 @app.route('/demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
 def presentation_endpoint(id, red):
