@@ -148,7 +148,8 @@ def check_over13():
     except KeyError:
         logging.info("requesting link")
         response = requests.get('https://6914-2a01-e34-eca6-33c0-aa2b-d40d-1c63-d7a3.ngrok-free.app/id360/get_link',headers={"apiKey":"test-demo"})
-        return render_template('menu.html',url_kyc=response.json()["url"]+"&callback=talao.co/demo/id360")
+        logging.info(response)
+        return render_template('menu.html',url_kyc=response.json()["url"]+"&callback=talao.co/demo/kyc")
     logging.info("check_over13")
     global payload_gamer_pass
     id = str(uuid.uuid1())
