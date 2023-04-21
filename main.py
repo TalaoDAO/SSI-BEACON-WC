@@ -147,7 +147,7 @@ def check_over13():
         blockchain = request.args['blockchain']
     except KeyError:
         logging.info("requesting link")
-        response = requests.get('https://talao.co/id360/get_link',headers={"apiKey":"test-demo"})
+        response = requests.get('https://talao.co/id360/get_code',headers={"apiKey":"test-demo"})
         logging.info(response)
         url="/id360/authenticate/"+response.json()["code"]+"?callback=talao.co/demo/kyc&client_id=123&vc_type="
         return render_template('menu.html',url_kyc=url+"VerifiableId",url_over18=url+"Over18")
@@ -174,7 +174,7 @@ def check_over13():
                              )
     else:
         logging.info("requesting link")
-        response = requests.get('https://talao.co/id360/get_link',headers={"apiKey":"test-demo"})
+        response = requests.get('https://talao.co/id360/get_code',headers={"apiKey":"test-demo"})
         url="/id360/authenticate/"+response.json()["code"]+"?callback=talao.co/demo/kyc&client_id=123&vc_type="
         return render_template('menu.html',url_kyc=url+"VerifiableId",url_over18=url+"Over18")
 
