@@ -149,7 +149,8 @@ def check_over13():
         logging.info("requesting link")
         response = requests.get('https://talao.co/id360/get_link',headers={"apiKey":"test-demo"})
         logging.info(response)
-        return render_template('menu.html',url_kyc=response.json()["url"]+"&callback=talao.co/demo/kyc")
+        url="/id360/authenticate/"+response.json()["code"]+"?callback=talao.co/demo/kyc&client_id=123&vc_type="
+        return render_template('menu.html',url_kyc=url+"VerifiableId",url_over18=url+"Over18")
     logging.info("check_over13")
     global payload_gamer_pass
     id = str(uuid.uuid1())
@@ -174,7 +175,8 @@ def check_over13():
     else:
         logging.info("requesting link")
         response = requests.get('https://talao.co/id360/get_link',headers={"apiKey":"test-demo"})
-        return render_template('menu.html',url_kyc=response.json()["url"]+"&callback=talao.co/demo/id360")
+        url="/id360/authenticate/"+response.json()["code"]+"?callback=talao.co/demo/kyc&client_id=123&vc_type="
+        return render_template('menu.html',url_kyc=url+"VerifiableId",url_over18=url+"Over18")
 
 
 def check_over13_webhook(red) :
