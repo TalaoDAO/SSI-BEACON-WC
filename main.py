@@ -212,11 +212,22 @@ def serve_static(filename):
 @app.route('/demo/kyc/<code>',methods=['GET'])
 def kyc_error(code):
     if code=="400":
-        return jsonify("error kyc"),200
+        message="error"
     elif code=="200":
-        return jsonify("kyc completed"),200
+        message="KYC completed"
+    elif code=="201":
+        message="Age Verification completed"
+    elif code=="430":
+        message="presentation does not exist in issuer endpoint"
+    elif code=="431":
+        message="holder does not match subject in issuer endpoint"
+    elif code=="432":
+        message="presentation failed in issuer endpoint"
+    elif code=="433":
+        message="invalid did in issuer endpoint"
     else:
-        return jsonify("invalid error code"),200
+        message="?"
+    return render_template("kyc.html",message=message)
 
 @app.route('/demo/endpoint/<id>', methods = ['GET', 'POST'],  defaults={'red' : red})
 def presentation_endpoint(id, red):
